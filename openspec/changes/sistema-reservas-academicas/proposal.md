@@ -13,9 +13,9 @@ Se desarrollará un sistema web de gestión de reservas de espacios académicos 
 - **Roles y permisos**: Dos roles principales: Administrador (gestiona espacios, aprueba/rechaza solicitudes, gestiona usuarios) y Solicitante (crea solicitudes, consulta disponibilidad, cancela sus propias solicitudes).
 - **Creación de solicitudes de reserva**: Los solicitantes podrán crear solicitudes especificando espacio, fecha, hora de inicio y fin.
 - **Consulta y validación de disponibilidad**: El sistema debe validar que un espacio esté disponible en el horario solicitado.
-- **Prevención de reservas superpuestas y simultáneas**: Debe impedir crear solicitudes que se solapen con reservas ya aprobadas o en proceso de validación, y proteger contra reservas simultáneas (condición de carrera).
-- **Aprobación y rechazo de solicitudes**: Los administradores podrán aprobar o rechazar solicitudes, dejando registro de quién y cuándo lo hizo.
-- **Cancelación e historial de reservas**: Los solicitantes podrán cancelar sus propias solicitudes (en estados permitidos), y tanto usuarios como administradores tendrán acceso al historial de reservas con filtros.
+- **Prevención de reservas superpuestas y simultáneas**: Las solicitudes pendientes que se solapen entre sí podrán registrarse pero se marcarán como conflicto para revisión administrativa. No se permitirá aprobar una solicitud si existe otra reserva ya aprobada para el mismo espacio y horario. Se debe proteger contra reservas simultáneas (condición de carrera).
+- **Aprobación y rechazo de solicitudes**: Los administradores podrán aprobar o rechazar solicitudes, dejando registro de quién y cuándo lo hizo. La aprobación quedará bloqueada si existe un conflicto con reservas aprobadas.
+- **Cancelación e historial de reservas**: Los solicitantes podrán cancelar sus propias solicitudes pendientes. Las reservas aprobadas solo podrán cancelarse mediante autorización administrativa. Toda cancelación se registrará y el historial se conservará. Tanto usuarios como administradores tendrán acceso al historial de reservas con filtros.
 
 **Nota**: Se incorpora la restricción futura de "máximo cuatro horas consecutivas" la cual será gestionada como un cambio formal mediante OpenSpec, no como parte de esta propuesta inicial.
 

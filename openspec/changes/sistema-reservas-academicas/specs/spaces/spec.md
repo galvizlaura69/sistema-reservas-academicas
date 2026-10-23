@@ -36,9 +36,9 @@ El sistema SHALL permitir a usuarios autenticados consultar la lista de espacios
 El sistema SHALL permitir al Administrador editar, activar/desactivar o eliminar espacios académicos, manteniendo trazabilidad de las acciones.
 
 #### Scenario: Desactivar espacio con reservas futuras aprobadas
-- **WHEN** el Administrador desactiva un espacio que tiene reservas aprobadas futuras
-- **THEN** el sistema debe impedir la desactivación o advertir explícitamente
-- **AND** requerir confirmación antes de proceder
+- **WHEN** el Administrador intenta desactivar un espacio que tiene reservas aprobadas futuras
+- **THEN** el sistema SHALL impedir la desactivación
+- **AND** informar al Administrador que debe resolver esas reservas aprobadas primero
 - **AND** no eliminar automáticamente las reservas aprobadas existentes
 
 #### Scenario: Editar atributos de espacio

@@ -41,7 +41,7 @@ Ver proposal.md para la motivación. Este diseño se basa en los requisitos espe
 - **Alternativas consideradas**:
   - Validación solo en aplicación sin locks: vulnerable a race conditions.
   - Locks a nivel de tabla/registro con transacciones: necesario.
-- **Elegida**: Validación con consulta de solapamientos + transacciones con `BEGIN IMMEDIATE` o equivalente en SQLite. Usar constraints cuando sea posible y validación en servicio con bloqueo.
+- **Elegida**: Validación con consulta de solapamientos + transacciones con `BEGIN IMMEDIATE` en SQLite. Revalidar disponibilidad dentro de la transacción antes de confirmar. Manejar errores de bloqueo con reintentos limitados y errores controlados. No afirmar garantía de concurrencia hasta verificarla con pruebas. Las solicitudes pendientes que se solapen podrán crearse pero se marcarán como conflicto para revisión; la aprobación solo se permitirá si no hay conflicto con reservas aprobadas.
 
 ### Decisión 4: Control de acceso
 - **Razón**: Requisito de roles y permisos.
@@ -62,8 +62,8 @@ Ver proposal.md para la motivación. Este diseño se basa en los requisitos espe
 
 ## Risks / Trade-offs
 
-- **Riesgo**: Condiciones de carrera en reservas simultáneas → **Mitigación**: Usar transacciones con bloqueo, validar dentro de transacción, tests de concurrencia.
-- **Riesgo**: SQLite con alta concurrencia limitada → **Mitigación**: Adecuado para uso académico; usar WAL mode y transacciones cortas.
+- **Riesgo**: Condiciones de carrera en reservas simultáneas → **Mitigación**: Usar transacciones con `BEGIN IMMEDIATE`, revalidar dentro de la transacción, reintentos limitados, errores controlados. Verificar con pruebas; no afirmar garantía hasta validación.
+- **Riesgo**: SQLite con alta concurrencia limitada → **Mitigación**: Adecuado para uso académico; usar WAL mode y transacciones cortas. Consciente de limitaciones.
 - **Riesgo**: Validación de solapamientos compleja con zonas horarias → **Mitigación**: Usar timestamps naive UTC o naive local consistente, documentar en diseño.
 - **Riesgo**: Desactivar espacio con reservas aprobadas → **Mitigación**: Validación previa, advertencia, no eliminación automática.
 - **Riesgo**: Escalabilidad futura → **Mitigación**: Arquitectura modular permite migración a PostgreSQL si necesario.

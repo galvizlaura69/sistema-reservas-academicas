@@ -20,19 +20,20 @@
 
 ## 4. Solicitudes de reserva - Creación y validación
 
-- [ ] 4.1 Implementar modelo Reservation con estados (Pendiente/Aprobada/Rechazada/Cancelada), timestamps y trazabilidad, verificando con pruebas unitarias
-- [ ] 4.2 Implementar servicio de validación de disponibilidad y prevención de solapamientos con transacciones (protección contra reservas simultáneas) y verificar con pruebas de concurrencia
-- [ ] 4.3 Implementar creación de solicitudes de reserva por Solicitante con validaciones y verificar rechazo/aceptación según reglas
+- [ ] 4.1 Implementar modelo Reservation con estados (Pendiente/Aprobada/Rechazada/Cancelada), campo de conflicto/marcado, timestamps y trazabilidad, verificando con pruebas unitarias
+- [ ] 4.2 Implementar servicio de validación de disponibilidad con transacciones `BEGIN IMMEDIATE`, revalidación dentro de la transacción, marcado de conflictos para pendientes solapados, y manejo de errores de bloqueo con reintentos limitados; verificar con pruebas de concurrencia (sin afirmar garantía hasta pasar pruebas)
+- [ ] 4.3 Implementar creación de solicitudes de reserva por Solicitante con validaciones (permitir solapamiento con pendientes marcando conflicto) y verificar comportamiento según reglas
 
 ## 5. Aprobación, rechazo, cancelación e historial
 
-- [ ] 5.1 Implementar aprobación/rechazo de solicitudes por Administrador con registro de decisor, fecha/hora y motivo, verificando con pruebas
-- [ ] 5.2 Implementar cancelación de solicitudes por Solicitante según estados permitidos y verificar restricciones con pruebas
-- [ ] 5.3 Implementar historial de reservas (propio y general) con filtros y trazabilidad completa, verificando con pruebas de integración
+- [ ] 5.1 Implementar aprobación/rechazo de solicitudes por Administrador con registro de decisor, fecha/hora y motivo; bloquear aprobación si hay conflicto con reservas aprobadas, verificando con pruebas
+- [ ] 5.2 Implementar cancelación: Solicitante puede cancelar solo pendientes; reservas aprobadas solo con autorización administrativa, con registro de autorizante/motivo/fecha; verificar restricciones con pruebas
+- [ ] 5.3 Implementar historial de reservas (propio y general) con filtros y trazabilidad completa (solicitante, decisor/autorizante, motivos), verificando con pruebas de integración
 
 ## 6. Pruebas de integración y validación final
 
-- [ ] 6.1 Implementar pruebas de integración cubriendo flujos completos (crear solicitud → aprobar → historial) y verificar que todas pasan
-- [ ] 6.2 Verificar prevención de solapamientos y protección contra reservas simultáneas con escenarios de prueba específicos
-- [ ] 6.3 Verificar control de acceso basado en roles en todos los endpoints críticos
-- [ ] 6.4 Ejecutar suite completa de pruebas (pytest) y verificar cobertura de casos principales definidos en las especificaciones
+- [ ] 6.1 Implementar pruebas de integración cubriendo flujos completos (crear solicitud → aprobar → historial, incluyendo cancelación) y verificar que todas pasan
+- [ ] 6.2 Verificar prevención de solapamientos: permitir pendientes solapados con marcado de conflicto, bloquear aprobación con reservas aprobadas, y protección contra concurrencia con `BEGIN IMMEDIATE` y reintentos
+- [ ] 6.3 Verificar desactivación de espacios (imposible si hay reservas aprobadas futuras) y cancelación según política
+- [ ] 6.4 Verificar control de acceso basado en roles en todos los endpoints críticos
+- [ ] 6.5 Ejecutar suite completa de pruebas (pytest) y verificar cobertura de casos principales definidos en las especificaciones; NO afirmar garantía de concurrencia hasta que las pruebas específicas lo validen
