@@ -35,6 +35,10 @@ def create_app(config=None):
     app.register_blueprint(reservations_bp)
     app.register_blueprint(admin_bp)
 
+    @app.route('/')
+    def index():
+        return 'Sistema de Reservas Académicas - OK'
+
     from app import models  # noqa
 
     with app.app_context():
