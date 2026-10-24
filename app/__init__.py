@@ -35,9 +35,11 @@ def create_app(config=None):
     app.register_blueprint(reservations_bp)
     app.register_blueprint(admin_bp)
 
+    from flask import render_template
+
     @app.route('/')
     def index():
-        return 'Sistema de Reservas Académicas - OK'
+        return render_template('index.html')
 
     from app import models  # noqa
 

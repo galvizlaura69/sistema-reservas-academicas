@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Inicio - Sistema de Reservas Académicas{% endblock %}
+{% block content %}
+<section>
+    <h2>Bienvenido</h2>
+    <p>Sistema para gestionar reservas de laboratorios, auditorios y salas de cómputo.</p>
+    <div class="card-grid">
+        <div class="card">
+            <h3>Espacios</h3>
+            <p>Consultar espacios académicos disponibles.</p>
+            <a class="btn" href="{{ url_for('spaces.index') }}">Ver espacios</a>
+        </div>
+        <div class="card">
+            <h3>Reservas</h3>
+            <p>Crear y consultar solicitudes de reserva.</p>
+            <a class="btn" href="{{ url_for('reservations.index') }}">Gestionar reservas</a>
+        </div>
+        <div class="card">
+            <h3>Administración</h3>
+            <p>Gestionar usuarios, espacios, aprobaciones y cancelaciones autorizadas.</p>
+            <a class="btn" href="{{ url_for('admin.index') }}">Panel administrativo</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

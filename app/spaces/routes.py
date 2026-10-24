@@ -1,8 +1,8 @@
-from flask import Blueprint
+from flask import render_template
 
 bp = __import__('app.spaces', fromlist=['bp']).bp
 
 
 @bp.route('/')
 def index():
-    return 'spaces'
+    return render_template('spaces/index.html')
